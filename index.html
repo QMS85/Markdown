@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Previewer</title>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .editor-container, .preview-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .toolbar {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .toolbar i {
+            margin-right: 10px;
+        }
+        
+        #editor {
+            width: 100%;
+            min-height: 400px;
+            padding: 15px;
+            border: none;
+            resize: vertical;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: var(--light-color);
+        }
+        
+        #preview {
+            padding: 20px;
+            min-height: 400px;
+            overflow-wrap: break-word;
+        }
+        
+        #preview img {
+            max-width: 100%;
+        }
+        
+        #preview code {
+            background-color: #f8f8f8;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        #preview pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        
+        #preview blockquote {
+            border-left: 3px solid var(--accent-color);
+            padding-left: 10px;
+            margin-left: 0;
+            color: #555;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 5px;
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="editor-container">
+            <div class="toolbar">
+                <i class="fas fa-edit"></i> Editor
+            </div>
+            <textarea id="editor"># Welcome to my Markdown Previewer!
+
+## This is a sub-heading...
+### And here's some other cool stuff:
+
+Here's some code, `<div></div>`, between 2 backticks.
+// This is a code block:
+function anotherExample(firstLine, lastLine) {
+if (firstLine == '' && lastLine == '') {
+return multiCode;
+}
+}
+
+You can also make text **bold**... whoa!
+
+There's also [links](https://www.freecodecamp.org), and
+> Block Quotes!
+
+And if you want to get really crazy, even tables:
+
+Wild Header | Crazy Header | Another Header?
+------------ | ------------- | -------------
+Your content can | be here, and it | can be here....
+And here. | Okay. | I think we get it.
+
+- And of course there are lists.
+  - Some are bulleted.
+     - With different indentation levels.
+        - That look like this.
+
+
+1. And there are numbered lists too.
+1. Use just 1s if you want!
+1. And last but not least, let's not forget embedded images:
+
+![freeCodeCamp Logo](https://cdn.freecodecamp.org/testable-projects-fcc/images/fcc_secondary.svg)</textarea>
+        </div>
+        
+        <div class="preview-container">
+            <div class="toolbar">
+                <i class="fas fa-eye"></i> Preview
+            </div>
+            <div id="preview"></div>
+        </div>
+    </div>
+
+    <script>
+        // Set marked options
+        marked.setOptions({
+            breaks: true,
+            gfm: true
+        });
+        
+        // Get elements
+        const editor = document.getElementById('editor');
+        const preview = document.getElementById('preview');
+        
+        // Function to update preview
+        const updatePreview = () => {
+            const markdown = editor.value;
+            preview.innerHTML = marked.parse(markdown);
+        };
+        
+        // Set initial preview
+        updatePreview();
+        
+        // Add event listener for input changes
+        editor.addEventListener('input', updatePreview);
+    </script>
+    
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
